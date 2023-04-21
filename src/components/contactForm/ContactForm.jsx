@@ -44,6 +44,21 @@ export class ContactForm extends Component {
             />
           </label>
           <br />
+          <label htmlFor="">
+            Number
+            <br />
+            <input
+              className={css.input}
+              onChange={this.onChangeInput}
+              value={this.state.number}
+              type="tel"
+              name="number"
+              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+              required
+            />
+          </label>
+          <br />
           <button className={css.button} type="submit">
             Add contact
           </button>
