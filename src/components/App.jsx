@@ -1,15 +1,19 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { ContactForm } from './contactForm/ContactForm';
+import { ContactList } from './contactList/ContactList';
+import { Filter } from './filter/Filter';
 import css from './App.module.css';
 
 export class App extends Component {
   state = {
     contacts: [
-      { id: nanoid(), name: 'Rosie Simpson', number: '123-546-78' },
-      { id: nanoid(), name: 'Hermione Kline', number: '236-771-25' },
-      { id: nanoid(), name: 'Eden Clements', number: '657-741-26' },
+      { id: nanoid(), name: 'Rosie Simpson', number: '459-12-56' },
+      { id: nanoid(), name: 'Hermione Kline', number: '443-89-12' },
+      { id: nanoid(), name: 'Eden Clements', number: '645-17-79' },
+      { id: nanoid(), name: 'Annie Copeland', number: '227-91-26' },
     ],
+    filter: '',
   };
 
   onChangeInput = evt => {
@@ -31,7 +35,7 @@ export class App extends Component {
         const list = [...oldState.contacts];
 
         list.push({
-          id: nanoid(), //генерація id
+          id: nanoid(),
           name: name,
           number: number,
         });
@@ -41,14 +45,37 @@ export class App extends Component {
     }
   };
 
+  filter = () => {
+    const { contacts, filter } = this.state;
+
+    // новий масив, який містить всі контакти, що містять рядок пошуку
+    const filteredContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    return filteredContacts;
+  };
+
+  // отримання параметру id, який потрібно видалити зі списку контактів
+  delContact = id => {
+    // отримання поточного списку контактів зі стану компонента
+    const { contacts } = this.state;
+
+    // Новий масив, який містить всі контакти, окрім того, що має ідентифікатор
+    const filtred = contacts.filter(item => item.id !== id);
+
+    // оновлення властивості contacts
+    this.setState({ contacts: filtred });
+  };
+
   render() {
     return (
       <div className={css.conteiner}>
         <h1>Phonebook</h1>
-
-        {/* форма для додавання нового контакту */}
         <ContactForm addContact={this.addContact} />
         <h2>Contacts</h2>
+        <Filter filter={this.state.filter} onChangeInput={this.onChangeInput} />
+        <ContactList delContact={this.delContact} contacts={this.filter()} />
       </div>
     );
   }
