@@ -32,13 +32,14 @@ export class App extends Component {
     } else {
       // додавання нового контакту до списку контактів
       this.setState(oldState => {
-        const list = [...oldState.contacts];
-
-        list.push({
-          id: nanoid(),
-          name: name,
-          number: number,
-        });
+        const list = [
+          ...oldState.contacts,
+          {
+            id: nanoid(),
+            name: name,
+            number: number,
+          },
+        ];
 
         return { contacts: list };
       });
